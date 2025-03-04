@@ -1,22 +1,20 @@
 import { Container } from "@mui/material";
-import TodoCard from "./components/TodoCard";
-import { useEffect, useState } from "react";
-import axios from "axios";
+import TodoList from "./components/TodoList";
 import Header from "./components/Header";
+import { useState } from "react";
+import AddTodo from "./components/AddTodo";
 
 function App() {
-  const [todos, setTodos] = useState([]);
-
-  useEffect(() => {
-    axios
-      .get("http://localhost:3000/todos")
-      .then((response) => setTodos(response.data));
-  }, []);
+  const [addTodoVisibility, setAddTodoVisibility] = useState(false);
 
   return (
     <Container>
-      <Header></Header>
-      <TodoCard todos={todos}></TodoCard>
+      <Header setAddTodoVisibility={setAddTodoVisibility}></Header>
+      <AddTodo
+        addTodoVisibility={addTodoVisibility}
+        setAddTodoVisibility={setAddTodoVisibility}
+      ></AddTodo>
+      <TodoList addTodoVisibility={addTodoVisibility}></TodoList>
     </Container>
   );
 }
