@@ -10,7 +10,7 @@ import {
 import { useRef, useEffect, useState } from "react";
 import axios from "axios";
 
-export default function TodoEditor({ todo, open, setOpen }) {
+export default function UpdateTodo({ todo, open, setOpen }) {
   const [updatedTodo, setUpdatedTodo] = useState("");
   const [isTodoEmpty, setIsTodoEmpty] = useState(false);
   const todoInputRef = useRef(null);

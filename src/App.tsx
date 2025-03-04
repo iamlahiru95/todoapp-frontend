@@ -1,22 +1,20 @@
 import { Container } from "@mui/material";
 import TodoList from "./components/TodoList";
-import { useEffect, useState } from "react";
-import axios from "axios";
 import Header from "./components/Header";
+import { useState } from "react";
+import AddTodo from "./components/AddTodo";
 
 function App() {
-  const [todos, setTodos] = useState([]);
-
-  useEffect(() => {
-    axios
-      .get("http://localhost:3000/todos")
-      .then((response) => setTodos(response.data));
-  }, [todos]);
+  const [addTodoVisibility, setAddTodoVisibility] = useState(false);
 
   return (
     <Container>
-      <Header></Header>
-      <TodoList todoList={todos}></TodoList>
+      <Header setAddTodoVisibility={setAddTodoVisibility}></Header>
+      <AddTodo
+        addTodoVisibility={addTodoVisibility}
+        setAddTodoVisibility={setAddTodoVisibility}
+      ></AddTodo>
+      <TodoList addTodoVisibility={addTodoVisibility}></TodoList>
     </Container>
   );
 }
