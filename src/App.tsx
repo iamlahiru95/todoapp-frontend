@@ -6,15 +6,20 @@ import AddTodo from "./components/AddTodo";
 
 function App() {
   const [addTodoPopupVisibility, setAddTodoPopupVisibility] = useState(false);
+  const [fetchTodos, setFetchTodos] = useState(false);
 
   return (
     <Container>
       <Header setAddTodoPopupVisibility={setAddTodoPopupVisibility}></Header>
       <AddTodo
+        setFetchTodos={setFetchTodos}
         addTodoPopupVisibility={addTodoPopupVisibility}
         setAddTodoPopupVisibility={setAddTodoPopupVisibility}
       ></AddTodo>
-      <TodoList addTodoPopupVisibility={addTodoPopupVisibility}></TodoList>
+      <TodoList
+        fetchTodos={fetchTodos}
+        setFetchTodos={setFetchTodos}
+      ></TodoList>
     </Container>
   );
 }
