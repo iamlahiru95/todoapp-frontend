@@ -5,16 +5,16 @@ import { useState } from "react";
 import AddTodo from "./components/AddTodo";
 
 function App() {
-  const [addTodoVisibility, setAddTodoVisibility] = useState(false);
+  const [addTodoPopupVisibility, setAddTodoPopupVisibility] = useState(false);
 
   return (
     <Container>
-      <Header setAddTodoVisibility={setAddTodoVisibility}></Header>
+      <Header setAddTodoPopupVisibility={setAddTodoPopupVisibility}></Header>
       <AddTodo
-        addTodoVisibility={addTodoVisibility}
-        setAddTodoVisibility={setAddTodoVisibility}
+        addTodoPopupVisibility={addTodoPopupVisibility}
+        setAddTodoPopupVisibility={setAddTodoPopupVisibility}
       ></AddTodo>
-      <TodoList addTodoVisibility={addTodoVisibility}></TodoList>
+      <TodoList addTodoPopupVisibility={addTodoPopupVisibility}></TodoList>
     </Container>
   );
 }

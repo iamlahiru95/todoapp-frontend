@@ -10,7 +10,10 @@ import {
 import { useRef, useEffect, useState } from "react";
 import axios from "axios";
 
-export default function AddTodo({ addTodoVisibility, setAddTodoVisibility }) {
+export default function AddTodo({
+  addTodoPopupVisibility,
+  setAddTodoPopupVisibility,
+}) {
   const [newTodo, setNewTodo] = useState("");
   const [isTodoEmpty, setIsTodoEmpty] = useState(false);
   const todoInputRef = useRef(null);
@@ -18,13 +21,13 @@ export default function AddTodo({ addTodoVisibility, setAddTodoVisibility }) {
     setIsTodoEmpty(!newTodo);
   }, [newTodo]);
   useEffect(() => {
-    if (addTodoVisibility && todoInputRef.current) {
+    if (addTodoPopupVisibility && todoInputRef.current) {
       todoInputRef.current.focus(); // Focus on the input when dialog opens
     }
-  }, [open]);
+  }, [addTodoPopupVisibility]);
 
   const handleClose = () => {
-    setAddTodoVisibility(false);
+    setAddTodoPopupVisibility(false);
     setIsTodoEmpty(false);
   };
 
@@ -33,20 +36,17 @@ export default function AddTodo({ addTodoVisibility, setAddTodoVisibility }) {
       .post(`http://localhost:3000/todos`, {
         todo: newTodo,
       })
-      .then((response) => {
-        console.log(response.data);
-        setAddTodoVisibility(false);
-      });
+      .then(() => setAddTodoPopupVisibility(false));
   };
 
   return (
     <Dialog
-      open={addTodoVisibility}
+      open={addTodoPopupVisibility}
       onClose={handleClose}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
-      <DialogTitle id="alert-dialog-title">Edit Todo</DialogTitle>
+      <DialogTitle id="alert-dialog-title">Add Todo</DialogTitle>
       <DialogContent>
         <Box
           component="form"

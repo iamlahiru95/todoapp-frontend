@@ -10,7 +10,11 @@ import {
 import { useRef, useEffect, useState } from "react";
 import axios from "axios";
 
-export default function UpdateTodo({ todo, open, setOpen }) {
+export default function UpdateTodo({
+  todo,
+  editTodoPopupVisibility,
+  setEditTodoPopupVisibility,
+}) {
   const [updatedTodo, setUpdatedTodo] = useState("");
   const [isTodoEmpty, setIsTodoEmpty] = useState(false);
   const todoInputRef = useRef(null);
@@ -18,13 +22,13 @@ export default function UpdateTodo({ todo, open, setOpen }) {
     setIsTodoEmpty(!updatedTodo);
   }, [updatedTodo]);
   useEffect(() => {
-    if (open && todoInputRef.current) {
+    if (editTodoPopupVisibility && todoInputRef.current) {
       todoInputRef.current.focus(); // Focus on the input when dialog opens
     }
-  }, [open]);
+  }, [editTodoPopupVisibility]);
 
   const handleClose = () => {
-    setOpen(false);
+    setEditTodoPopupVisibility(false);
     setIsTodoEmpty(false);
   };
 
@@ -36,13 +40,13 @@ export default function UpdateTodo({ todo, open, setOpen }) {
       })
       .then((response) => {
         console.log(response.data);
-        setOpen(false);
+        setEditTodoPopupVisibility(false);
       });
   };
 
   return (
     <Dialog
-      open={open}
+      open={editTodoPopupVisibility}
       onClose={handleClose}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"

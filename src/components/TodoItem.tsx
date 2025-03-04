@@ -1,7 +1,12 @@
 import Typography from "@mui/material/Typography";
 import { Button, Grid2, Paper } from "@mui/material";
 
-export default function TodoItem({ todo, setSelectedTodo, setOpen }) {
+export default function TodoItem({
+  todo,
+  setSelectedTodo,
+  setEditTodoPopupVisibility,
+  setDeleteTodoPopupVisibility,
+}) {
   return (
     <Paper key={todo.id} sx={{ paddingX: 2, paddingY: 1, marginY: 1 }}>
       <Grid2 container spacing={1} gridColumn={2}>
@@ -29,14 +34,22 @@ export default function TodoItem({ todo, setSelectedTodo, setOpen }) {
               variant="contained"
               onClick={() => {
                 setSelectedTodo(todo);
-                setOpen(true);
+                setEditTodoPopupVisibility(true);
               }}
             >
               Edit
             </Button>
           </Grid2>
           <Grid2 size={{ lg: 12, md: 12, sm: 12, xs: 6 }}>
-            <Button fullWidth color="error" variant="contained">
+            <Button
+              fullWidth
+              color="error"
+              variant="contained"
+              onClick={() => {
+                setSelectedTodo(todo);
+                setDeleteTodoPopupVisibility(true);
+              }}
+            >
               Delete
             </Button>
           </Grid2>
