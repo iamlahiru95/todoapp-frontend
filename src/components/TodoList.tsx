@@ -1,10 +1,13 @@
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import TodoItem from "./TodoItem";
 import UpdateTodo from "./UpdateTodo";
 import axios from "axios";
 import DeleteTodo from "./DeleteTodo";
+import { Backdrop, CircularProgress } from "@mui/material";
 
-export default function TodoList({ addTodoPopupVisibility }) {
+export default function TodoList({ fetchTodos, setFetchTodos }) {
+  const [isProgressIndicatorVisible, setIsProgressIndicatorVisible] =
+    useState(false);
   const [editTodoPopupVisibility, setEditTodoPopupVisibility] = useState(false);
   const [deleteTodoPopupVisibility, setDeleteTodoPopupVisibility] =
     useState(false);
@@ -16,24 +19,34 @@ export default function TodoList({ addTodoPopupVisibility }) {
   });
   const [todos, setTodos] = useState([]);
   useEffect(() => {
-    axios
-      .get("http://localhost:3000/todos")
-      .then((response) => setTodos(response.data));
-  }, [
-    editTodoPopupVisibility,
-    addTodoPopupVisibility,
-    deleteTodoPopupVisibility,
-  ]);
+    setIsProgressIndicatorVisible(true);
+    axios.get("http://localhost:3000/todos").then((response) => {
+      setTimeout(() => {
+        setTodos(response.data);
+        setIsProgressIndicatorVisible(false);
+      }, 1000);
+    });
+  }, [fetchTodos]);
 
   return (
-    <div>
+    <Fragment>
+      <Backdrop
+        sx={(theme) => ({ color: "#fff", zIndex: theme.zIndex.drawer + 1000 })}
+        open={isProgressIndicatorVisible}
+        onClick={() => setIsProgressIndicatorVisible(false)}
+      >
+        <CircularProgress color="success" />
+      </Backdrop>
+
       <UpdateTodo
+        setFetchTodos={setFetchTodos}
         todo={selectedTodo}
         editTodoPopupVisibility={editTodoPopupVisibility}
         setEditTodoPopupVisibility={setEditTodoPopupVisibility}
       ></UpdateTodo>
 
       <DeleteTodo
+        setFetchTodos={setFetchTodos}
         todo={selectedTodo}
         deleteTodoPopupVisibility={deleteTodoPopupVisibility}
         setDeleteTodoPopupVisibility={setDeleteTodoPopupVisibility}
@@ -51,6 +64,6 @@ export default function TodoList({ addTodoPopupVisibility }) {
           ></TodoItem>
         ))
       )}
-    </div>
+    </Fragment>
   );
 }
